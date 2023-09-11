@@ -2,6 +2,7 @@ package com.example.englishdiary.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishdiary.common.Constants
 import com.example.englishdiary.common.NetworkResponse
 import com.example.englishdiary.data.remote.Message
 import com.example.englishdiary.data.remote.OpenAiRequestDto
@@ -31,7 +32,7 @@ class MainViewModel @Inject constructor(
         getDiaryExample(
             OpenAiRequestDto(
                 model = "gpt-3.5-turbo",
-                messages = listOf( Message(role = "user", content = "Say this is a test!") ),
+                messages = listOf( Message(role = "user", content = Constants.DEBUG) ),
                 temperature = 0.7
             )
         )

@@ -1,6 +1,8 @@
 package com.example.englishdiary.data.remote
 
 
+import com.example.englishdiary.data.remote.DiaryExample.Companion.diaryExampleFromJsonToModel
+import com.example.englishdiary.data.remote.Message.Companion.extractDiaryExampleJsonResponse
 import com.example.englishdiary.domain.model.DiaryExample
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -17,5 +19,7 @@ data class OpenAiResponseDto(
 )
 
 fun OpenAiResponseDto.toDiaryExample(): DiaryExample {
-    return DiaryExample(choices!!.get(0)!!.message!!.content!!)
+    return diaryExampleFromJsonToModel(
+        extractDiaryExampleJsonResponse(choices!!.get(0)!!.message!!.content!!)
+    )
 }
