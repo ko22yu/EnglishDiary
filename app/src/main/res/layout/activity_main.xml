@@ -15,14 +15,47 @@
         tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/text_view"
+            android:id="@+id/dairyExampleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.diaryExample.content}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="64dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/englishCompositionInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="64dp"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dairyExampleText"
+            android:hint="@string/english_composition_field_hint"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/correctionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/correction_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/englishCompositionInputField" />
+
+        <TextView
+            android:id="@+id/correctionResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/correctionButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -20,6 +20,7 @@ object Constants {
 
     const val DEBUG = """
         Please output the following.
+        This is an answer.
         \`\`\`json
         {
             "diary_example": "こんにちは。"

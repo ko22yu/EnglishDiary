@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EnglishDiary</string>
+    <string name="correction_button">添削してもらう！</string>
+    <string name="english_composition_field_hint">英作文してみましょう...</string>
 </resources>
