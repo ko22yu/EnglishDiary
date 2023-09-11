@@ -2,8 +2,8 @@ package com.example.englishdiary.di
 
 import com.example.englishdiary.common.Constants.BASE_URL
 import com.example.englishdiary.data.remote.OpenAiApi
-import com.example.englishdiary.data.repository.DiaryExampleRepositoryImpl
-import com.example.englishdiary.domain.repository.DiaryExampleRepository
+import com.example.englishdiary.data.repository.CorrectionRepositoryImpl
+import com.example.englishdiary.domain.repository.CorrectionRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -34,7 +34,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDiaryExampleRepository(api: OpenAiApi): DiaryExampleRepository {
-        return DiaryExampleRepositoryImpl(api)
+    fun provideDiaryExampleRepository(api: OpenAiApi): CorrectionRepository {
+        return CorrectionRepositoryImpl(api)
     }
 }

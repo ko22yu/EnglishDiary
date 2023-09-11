@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.englishdiary.ui.MainViewModel" />
+            type="com.example.englishdiary.ui.CorrectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

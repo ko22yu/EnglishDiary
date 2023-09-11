@@ -3,12 +3,12 @@ package com.example.englishdiary.data.repository
 import com.example.englishdiary.data.remote.OpenAiApi
 import com.example.englishdiary.data.remote.OpenAiRequestDto
 import com.example.englishdiary.data.remote.OpenAiResponseDto
-import com.example.englishdiary.domain.repository.DiaryExampleRepository
+import com.example.englishdiary.domain.repository.CorrectionRepository
 import javax.inject.Inject
 
-class DiaryExampleRepositoryImpl @Inject constructor(
+class CorrectionRepositoryImpl @Inject constructor(
     private val api: OpenAiApi
-): DiaryExampleRepository {
+): CorrectionRepository {
     override suspend fun getDiaryExample(body: OpenAiRequestDto): OpenAiResponseDto {
         return api.getDiaryExample(body)
     }

@@ -7,7 +7,7 @@ import com.example.englishdiary.common.NetworkResponse
 import com.example.englishdiary.data.remote.Message
 import com.example.englishdiary.data.remote.OpenAiRequestDto
 import com.example.englishdiary.domain.model.DiaryExample
-import com.example.englishdiary.domain.usecase.GetDiaryExampleUseCase
+import com.example.englishdiary.domain.usecase.CorrectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val getDiaryExampleUseCase: GetDiaryExampleUseCase
+class CorrectionViewModel @Inject constructor(
+    private val correctionUseCase: CorrectionUseCase
 ): ViewModel() {
 
     private var _diaryExample: MutableStateFlow<DiaryExample> = MutableStateFlow(DiaryExample(""))
@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getDiaryExample(body: OpenAiRequestDto) {
-        getDiaryExampleUseCase(body).onEach {
+        correctionUseCase(body).onEach {
             when(it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
@@ -53,5 +53,9 @@ class MainViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun onClickCorrectionButton() {
+        // TODO
     }
 }
