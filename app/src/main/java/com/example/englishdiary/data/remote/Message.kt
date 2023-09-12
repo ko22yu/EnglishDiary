@@ -1,6 +1,7 @@
 package com.example.englishdiary.data.remote
 
 import com.squareup.moshi.JsonClass
+import org.json.JSONArray
 import org.json.JSONObject
 
 @JsonClass(generateAdapter = true)
@@ -12,22 +13,63 @@ data class Message(
         fun extractJsonTextFromMarkdown(input: String): String? {
             // 与えられた文字列から```json```で囲まれた部分を正規表現で抽出
             val pattern = """```json\n(.*?)\n```""".toRegex(RegexOption.DOT_MATCHES_ALL)
-            val matchResult = pattern.find(input.trimIndent())
+            var matchResult = pattern.find(input.trimIndent())
 
-            // マッチした部分がある場合、JSON文字列を取得
-            val jsonStr = matchResult?.groupValues?.getOrNull(1)
+            var jsonStr = ""
+            if (matchResult != null) {
+                // マッチした部分がある場合、JSON文字列を取得
+                jsonStr = matchResult?.groupValues?.getOrNull(1).toString()
+            }
+
+            if (matchResult == null) {
+                val patternForCorrectionResult = """\[\n(.*?)\n\]""".toRegex(RegexOption.DOT_MATCHES_ALL)
+                val patternForDiaryExample = """\{([^{}]+)\}""".toRegex(RegexOption.DOT_MATCHES_ALL)
+                if (patternForCorrectionResult.matches(input.trimIndent())) {
+                    matchResult = patternForCorrectionResult.find(input.trimIndent())
+                    // マッチした部分がある場合、JSON文字列を取得
+                    jsonStr = "[" + matchResult?.groupValues?.getOrNull(1).toString() + "]"
+                }
+                else if (patternForDiaryExample.matches(input.trimIndent())) {
+                    matchResult = patternForDiaryExample.find(input.trimIndent())
+                    // マッチした部分がある場合、JSON文字列を取得
+                    jsonStr = "{" + matchResult?.groupValues?.getOrNull(1).toString() + "}"
+                }
+                else {
+                    throw IllegalArgumentException("APIの返答が正しい形式ではありません")
+                }
+            }
 
             return jsonStr
         }
 
-        fun mapToDiaryExampleJson(jsonText: String?): DiaryExample {
-            val jsonObj = JSONObject(jsonText)
+        fun mapToDiaryExample(jsonObj: JSONObject): DiaryExample {
             return DiaryExample(content = jsonObj.optString("diary_example"))
         }
 
-        fun extractDiaryExampleJsonResponse(input: String): DiaryExample {
+        fun extractDiaryExample(input: String): DiaryExample {
             val jsonText = extractJsonTextFromMarkdown(input = input)
-            return mapToDiaryExampleJson(jsonText = jsonText)
+            val jsonObj = JSONObject(jsonText)
+            return mapToDiaryExample(jsonObj = jsonObj)
+        }
+
+        fun mapToCorrectionResult(jsonObj: JSONObject): CorrectionResult {
+            return CorrectionResult(
+                correctedEnText = jsonObj.optString("corrected_en_text"),
+                jaText = jsonObj.optString("ja_text"),
+                reasonForCorrection = jsonObj.optString("reason_for_correction")
+            )
+        }
+
+        fun extractCorrectionResultList(input: String): List<CorrectionResult> {
+            val jsonText = extractJsonTextFromMarkdown(input = input)
+            val jsonArray = JSONArray(jsonText)
+
+            val correctionResults = mutableListOf<CorrectionResult>()
+            for (i in 0 until jsonArray.length()) {
+                correctionResults.add(mapToCorrectionResult(jsonArray.getJSONObject(i)))
+            }
+
+            return correctionResults
         }
     }
 }

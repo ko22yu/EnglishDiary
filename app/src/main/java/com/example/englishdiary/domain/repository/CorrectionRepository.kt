@@ -5,5 +5,5 @@ import com.example.englishdiary.data.remote.OpenAiResponseDto
 
 interface CorrectionRepository {
 
-    suspend fun getDiaryExample(body: OpenAiRequestDto): OpenAiResponseDto
+    suspend fun getTextResponse(body: OpenAiRequestDto): OpenAiResponseDto
 }

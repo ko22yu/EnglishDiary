@@ -1,6 +1,6 @@
 package com.example.englishdiary.di
 
-import com.example.englishdiary.common.Constants.BASE_URL
+import com.example.englishdiary.common.Constants
 import com.example.englishdiary.data.remote.OpenAiApi
 import com.example.englishdiary.data.repository.CorrectionRepositoryImpl
 import com.example.englishdiary.domain.repository.CorrectionRepository
@@ -22,7 +22,7 @@ object AppModule {
     @Singleton
     fun provideOpenAiApi(): OpenAiApi {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(
                 MoshiConverterFactory.create(
                     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class CorrectionRepositoryImpl @Inject constructor(
     private val api: OpenAiApi
 ): CorrectionRepository {
-    override suspend fun getDiaryExample(body: OpenAiRequestDto): OpenAiResponseDto {
-        return api.getDiaryExample(body)
+    override suspend fun getTextResponse(body: OpenAiRequestDto): OpenAiResponseDto {
+        return api.getTextResponse(body)
     }
 }

@@ -12,7 +12,7 @@ interface OpenAiApi {
         "Authorization: Bearer ${BuildConfig.OPENAI_API_KEY}"
     )
     @POST("completions")
-    suspend fun getDiaryExample(
+    suspend fun getTextResponse(
         @Body openAiRequestDto: OpenAiRequestDto
     ): OpenAiResponseDto
 }

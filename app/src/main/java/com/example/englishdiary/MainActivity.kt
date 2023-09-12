@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import com.example.englishdiary.common.Constants
+import com.example.englishdiary.data.remote.Message
+import com.example.englishdiary.data.remote.OpenAiRequestDto
 import com.example.englishdiary.databinding.ActivityMainBinding
 import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,5 +28,16 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
+        binding.correctionButton.setOnClickListener {
+            viewModel.onClickCorrectionButton(
+                OpenAiRequestDto(
+                    model = "gpt-3.5-turbo",
+                    messages = listOf(
+                        Message(role = "user", content = Constants.DEBUG_PROMPT_FOR_CORRECTION)
+                    ),
+                    temperature = 0.7
+                )
+            )
+        }
     }
 }
