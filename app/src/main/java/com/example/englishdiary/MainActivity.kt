@@ -21,22 +21,11 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.diaryExample.collect {
-//                    binding.textView.text = it.content
-//                }
-//            }
-//        }
         binding.correctionButton.setOnClickListener {
             viewModel.onClickCorrectionButton(
-                OpenAiRequestDto(
-                    model = "gpt-3.5-turbo",
-                    messages = listOf(
-                        Message(role = "user", content = Constants.DEBUG_PROMPT_FOR_CORRECTION)
-                    ),
-                    temperature = 0.7
-                )
+                messages = listOf(
+                    Message(role = "user", content = Constants.DEBUG_PROMPT_FOR_CORRECTION)
+                ),
             )
         }
     }

@@ -3,6 +3,7 @@ package com.example.englishdiary.data.remote
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.example.englishdiary.domain.model.CorrectionResult as modelCorrectionResult
 
 @JsonClass(generateAdapter = true)
 data class CorrectionResult(
@@ -14,10 +15,11 @@ data class CorrectionResult(
     val reasonForCorrection: String?
 ) {
     companion object {
-        fun correctionResultListFromJsonToModel(jsonList: List<CorrectionResult>):
-                List<com.example.englishdiary.domain.model.CorrectionResult> {
-            return jsonList.map {
-                com.example.englishdiary.domain.model.CorrectionResult(
+        fun correctionResultListFromRemoteToModel(
+            remoteCorrectionResultList: List<CorrectionResult>
+        ): List<modelCorrectionResult> {
+            return remoteCorrectionResultList.map {
+                modelCorrectionResult(
                     correctedEnText = it.correctedEnText,
                     jaText = it.jaText,
                     reasonForCorrection = it.reasonForCorrection

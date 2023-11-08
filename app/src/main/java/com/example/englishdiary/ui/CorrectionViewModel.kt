@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CorrectionViewModel @Inject constructor(
     private val correctionUseCase: CorrectionUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private var _diaryExample: MutableStateFlow<DiaryExample> = MutableStateFlow(DiaryExample(""))
     val diaryExample = _diaryExample.asStateFlow()
@@ -36,24 +36,22 @@ class CorrectionViewModel @Inject constructor(
 
     init {
         getDiaryExample(
-            OpenAiRequestDto(
-                model = "gpt-3.5-turbo",
-                messages = listOf( Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY) ),
-                temperature = 0.7
-            )
+            listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY))
         )
     }
 
-    fun getDiaryExample(body: OpenAiRequestDto) {
-        correctionUseCase.getDiaryExample(body).onEach {
-            when(it) {
+    fun getDiaryExample(messages: List<Message?>?) {
+        correctionUseCase.getDiaryExample(messages).onEach {
+            when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
                     _diaryExample.value = it.data!!
                 }
+
                 is NetworkResponse.Failure -> {
                     _error.value = true
                 }
+
                 is NetworkResponse.Loading -> {
                     _isLoading.value = true
                 }
@@ -61,16 +59,18 @@ class CorrectionViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun onClickCorrectionButton(body: OpenAiRequestDto) {
-        correctionUseCase.getCorrectionResults(body).onEach {
-            when(it) {
+    fun onClickCorrectionButton(messages: List<Message?>?) {
+        correctionUseCase.getCorrectionResults(messages).onEach { networkState ->
+            when (networkState) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
-                    _correctionResults.value = it.data!!
+                    _correctionResults.value = networkState.data ?: listOf()
                 }
+
                 is NetworkResponse.Failure -> {
                     _error.value = true
                 }
+
                 is NetworkResponse.Loading -> {
                     _isLoading.value = true
                 }

@@ -7,7 +7,7 @@ import org.json.JSONObject
 @JsonClass(generateAdapter = true)
 data class Message(
     val content: String?,
-    val role: String?
+    val role: String?,
 ) {
     companion object {
         fun extractJsonTextFromMarkdown(input: String): String? {
@@ -22,19 +22,18 @@ data class Message(
             }
 
             if (matchResult == null) {
-                val patternForCorrectionResult = """\[\n(.*?)\n\]""".toRegex(RegexOption.DOT_MATCHES_ALL)
+                val patternForCorrectionResult =
+                    """\[\n(.*?)\n\]""".toRegex(RegexOption.DOT_MATCHES_ALL)
                 val patternForDiaryExample = """\{([^{}]+)\}""".toRegex(RegexOption.DOT_MATCHES_ALL)
                 if (patternForCorrectionResult.matches(input.trimIndent())) {
                     matchResult = patternForCorrectionResult.find(input.trimIndent())
                     // マッチした部分がある場合、JSON文字列を取得
                     jsonStr = "[" + matchResult?.groupValues?.getOrNull(1).toString() + "]"
-                }
-                else if (patternForDiaryExample.matches(input.trimIndent())) {
+                } else if (patternForDiaryExample.matches(input.trimIndent())) {
                     matchResult = patternForDiaryExample.find(input.trimIndent())
                     // マッチした部分がある場合、JSON文字列を取得
                     jsonStr = "{" + matchResult?.groupValues?.getOrNull(1).toString() + "}"
-                }
-                else {
+                } else {
                     throw IllegalArgumentException("APIの返答が正しい形式ではありません")
                 }
             }
@@ -42,17 +41,17 @@ data class Message(
             return jsonStr
         }
 
-        fun mapToDiaryExample(jsonObj: JSONObject): DiaryExample {
+        private fun mapToRemoteDiaryExample(jsonObj: JSONObject): DiaryExample {
             return DiaryExample(content = jsonObj.optString("diary_example"))
         }
 
-        fun extractDiaryExample(input: String): DiaryExample {
+        fun extractRemoteDiaryExample(input: String): DiaryExample {
             val jsonText = extractJsonTextFromMarkdown(input = input)
-            val jsonObj = JSONObject(jsonText)
-            return mapToDiaryExample(jsonObj = jsonObj)
+            val jsonObj = JSONObject(jsonText ?: "")
+            return mapToRemoteDiaryExample(jsonObj = jsonObj)
         }
 
-        fun mapToCorrectionResult(jsonObj: JSONObject): CorrectionResult {
+        private fun mapToCorrectionResult(jsonObj: JSONObject): CorrectionResult {
             return CorrectionResult(
                 correctedEnText = jsonObj.optString("corrected_en_text"),
                 jaText = jsonObj.optString("ja_text"),
@@ -60,7 +59,7 @@ data class Message(
             )
         }
 
-        fun extractCorrectionResultList(input: String): List<CorrectionResult> {
+        fun extractRemoteCorrectionResultList(input: String): List<CorrectionResult> {
             val jsonText = extractJsonTextFromMarkdown(input = input)
             val jsonArray = JSONArray(jsonText)
 
@@ -70,6 +69,14 @@ data class Message(
             }
 
             return correctionResults
+        }
+
+        fun makeOpenAiRequestDtoFromMessageList(messageList: List<Message?>?): OpenAiRequestDto {
+            return OpenAiRequestDto(
+                messages = messageList,
+                model = "gpt-3.5-turbo",
+                temperature = 0.7,
+            )
         }
     }
 }

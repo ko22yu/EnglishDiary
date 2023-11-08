@@ -1,10 +1,10 @@
 package com.example.englishdiary.data.remote
 
 
-import com.example.englishdiary.data.remote.CorrectionResult.Companion.correctionResultListFromJsonToModel
-import com.example.englishdiary.data.remote.DiaryExample.Companion.diaryExampleFromJsonToModel
-import com.example.englishdiary.data.remote.Message.Companion.extractCorrectionResultList
-import com.example.englishdiary.data.remote.Message.Companion.extractDiaryExample
+import com.example.englishdiary.data.remote.CorrectionResult.Companion.correctionResultListFromRemoteToModel
+import com.example.englishdiary.data.remote.DiaryExample.Companion.diaryExampleFromRemoteToModel
+import com.example.englishdiary.data.remote.Message.Companion.extractRemoteCorrectionResultList
+import com.example.englishdiary.data.remote.Message.Companion.extractRemoteDiaryExample
 import com.example.englishdiary.domain.model.CorrectionResult
 import com.example.englishdiary.domain.model.DiaryExample
 import com.squareup.moshi.Json
@@ -22,12 +22,13 @@ data class OpenAiResponseDto(
 )
 
 fun OpenAiResponseDto.toDiaryExample(): DiaryExample {
-    return diaryExampleFromJsonToModel(
-        extractDiaryExample(choices!!.get(0)!!.message!!.content!!)
+    return diaryExampleFromRemoteToModel(
+        extractRemoteDiaryExample(choices?.get(0)?.message?.content ?: "")
     )
 }
+
 fun OpenAiResponseDto.toCorrectionResults(): List<CorrectionResult> {
-    return correctionResultListFromJsonToModel(
-        extractCorrectionResultList(choices!!.get(0)!!.message!!.content!!)
+    return correctionResultListFromRemoteToModel(
+        extractRemoteCorrectionResultList(choices?.get(0)?.message?.content ?: "")
     )
 }
