@@ -20,6 +20,29 @@ object Constants {
         I would like to write a diary. Please give me an example sentence.
     """
     const val PROMPT_FOR_CORRECTION = """
+        You are a great English teacher.
+        Output a markdown code snippet in Japanese formatted with the following schema:
+
+        \`\`\`json
+        [
+            {
+                ja_text: string, // Japanese text.
+                corrected_en_text: string, // Corrected English text.
+                reason_for_correction: string, // Reason for correction.
+            },  // 1st sentence.
+            {
+                ja_text: string, // Japanese text.
+                corrected_en_text: string, // Corrected English text.
+                reason_for_correction: string, // Reason for correction.
+            }  // 2nd sentence.
+        ]
+        \`\`\`
+
+        Notes.
+        * Responses should be in Japanese for the ja_text and the reason_for_correction.
+        * Do not include anything other than JSON in your answers.
+
+        Correct the below English composition.
         
     """
 

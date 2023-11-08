@@ -1,11 +1,12 @@
 package com.example.englishdiary.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.englishdiary.common.Constants
 import com.example.englishdiary.common.NetworkResponse
 import com.example.englishdiary.data.remote.Message
-import com.example.englishdiary.data.remote.OpenAiRequestDto
 import com.example.englishdiary.domain.model.CorrectionResult
 import com.example.englishdiary.domain.model.DiaryExample
 import com.example.englishdiary.domain.usecase.CorrectionUseCase
@@ -28,6 +29,9 @@ class CorrectionViewModel @Inject constructor(
             listOf(CorrectionResult(correctedEnText = "", jaText = "", reasonForCorrection = ""))
         )
     val correctionResults = _correctionResults.asStateFlow()
+    val inputEnglishText = MutableLiveData<String>()
+    private val _isCorrectionButtonEnabled = MutableLiveData<Boolean>()
+    val isCorrectionButtonEnabled: LiveData<Boolean> = _isCorrectionButtonEnabled
 
     private var _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
@@ -60,6 +64,9 @@ class CorrectionViewModel @Inject constructor(
     }
 
     fun onClickCorrectionButton(messages: List<Message?>?) {
+        // カンマで分割
+        // 例文と英語を交互にPROMPT_FOR_CORRECTIONに追加
+        // APIに送る
         correctionUseCase.getCorrectionResults(messages).onEach { networkState ->
             when (networkState) {
                 is NetworkResponse.Success -> {
@@ -76,5 +83,9 @@ class CorrectionViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateCorrectionButtonEnabled() {
+        _isCorrectionButtonEnabled.value = inputEnglishText.value?.isNotEmpty()
     }
 }

@@ -1,12 +1,13 @@
 package com.example.englishdiary
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.englishdiary.common.Constants
 import com.example.englishdiary.data.remote.Message
-import com.example.englishdiary.data.remote.OpenAiRequestDto
 import com.example.englishdiary.databinding.ActivityMainBinding
 import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,5 +29,14 @@ class MainActivity : AppCompatActivity() {
                 ),
             )
         }
+
+        // EditTextの入力を監視する
+        binding.englishCompositionInputField.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.updateCorrectionButtonEnabled()
+            }
+        })
     }
 }
