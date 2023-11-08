@@ -10,8 +10,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -21,8 +23,15 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOpenAiApi(): OpenAiApi {
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // 接続のタイムアウトを設定
+            .readTimeout(30, TimeUnit.SECONDS)    // 読み取りのタイムアウトを設定
+            .writeTimeout(30, TimeUnit.SECONDS)   // 書き込みのタイムアウトを設定
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(client)
             .addConverterFactory(
                 MoshiConverterFactory.create(
                     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
