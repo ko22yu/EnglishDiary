@@ -6,8 +6,6 @@ import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.englishdiary.common.Constants
-import com.example.englishdiary.data.remote.Message
 import com.example.englishdiary.databinding.ActivityMainBinding
 import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,11 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.correctionButton.setOnClickListener {
-            viewModel.onClickCorrectionButton(
-                messages = listOf(
-                    Message(role = "user", content = Constants.DEBUG_PROMPT_FOR_CORRECTION)
-                ),
-            )
+            viewModel.onClickCorrectionButton()
         }
 
         // EditTextの入力を監視する

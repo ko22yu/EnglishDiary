@@ -24,9 +24,9 @@ object AppModule {
     @Singleton
     fun provideOpenAiApi(): OpenAiApi {
         val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS) // 接続のタイムアウトを設定
-            .readTimeout(30, TimeUnit.SECONDS)    // 読み取りのタイムアウトを設定
-            .writeTimeout(30, TimeUnit.SECONDS)   // 書き込みのタイムアウトを設定
+            .connectTimeout(60, TimeUnit.SECONDS) // 接続のタイムアウトを設定
+            .readTimeout(60, TimeUnit.SECONDS)    // 読み取りのタイムアウトを設定
+            .writeTimeout(60, TimeUnit.SECONDS)   // 書き込みのタイムアウトを設定
             .build()
 
         return Retrofit.Builder()

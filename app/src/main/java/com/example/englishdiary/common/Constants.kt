@@ -19,7 +19,7 @@ object Constants {
         
         I would like to write a diary. Please give me an example sentence.
     """
-    const val PROMPT_FOR_CORRECTION = """
+    var PROMPT_FOR_CORRECTION = """
         You are a great English teacher.
         Output a markdown code snippet in Japanese formatted with the following schema:
 
@@ -51,7 +51,7 @@ object Constants {
         This is an answer.
         \`\`\`json
         {
-            "diary_example": "こんにちは。"
+            "diary_example": "こんにちは。はじめまして。"
         }
         \`\`\`
     """

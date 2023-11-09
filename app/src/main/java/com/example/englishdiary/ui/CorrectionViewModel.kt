@@ -40,7 +40,7 @@ class CorrectionViewModel @Inject constructor(
 
     init {
         getDiaryExample(
-            listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY))
+            listOf(Message(role = "user", content = Constants.PROMPT_TO_GET_EXAMPLE_DIARY))
         )
     }
 
@@ -63,10 +63,11 @@ class CorrectionViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun onClickCorrectionButton(messages: List<Message?>?) {
-        // カンマで分割
-        // 例文と英語を交互にPROMPT_FOR_CORRECTIONに追加
-        // APIに送る
+    fun onClickCorrectionButton() {
+        addDiaryExampleAndEnglishCompositionToPromptForCorrection()
+        val messages: List<Message?> =
+            listOf(Message(role = "user", content = Constants.PROMPT_FOR_CORRECTION))
+
         correctionUseCase.getCorrectionResults(messages).onEach { networkState ->
             when (networkState) {
                 is NetworkResponse.Success -> {
@@ -83,6 +84,25 @@ class CorrectionViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun addDiaryExampleAndEnglishCompositionToPromptForCorrection() {
+        val inputEnglishSentenceList = inputEnglishText.value?.split(".")
+        val diaryExampleSentenceList = diaryExample.value.content.split("。")
+        val diaryExampleAndEnglishCompositionList = mutableListOf<String>()
+        val maxSize = maxOf(inputEnglishSentenceList?.size ?: 0, diaryExampleSentenceList.size)
+        for (i in 0 until maxSize) {
+            if (i < diaryExampleSentenceList.size) {
+                diaryExampleAndEnglishCompositionList.add(diaryExampleSentenceList[i])
+            }
+            if (inputEnglishSentenceList != null && i < inputEnglishSentenceList.size) {
+                diaryExampleAndEnglishCompositionList.add(inputEnglishSentenceList[i])
+            }
+        }
+
+        diaryExampleAndEnglishCompositionList.forEach {
+            Constants.PROMPT_FOR_CORRECTION += it
+        }
     }
 
     fun updateCorrectionButtonEnabled() {
