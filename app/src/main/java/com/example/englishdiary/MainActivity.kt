@@ -6,9 +6,13 @@ import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.englishdiary.databinding.ActivityMainBinding
 import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -24,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.onClickCorrectionButton()
         }
 
-        // EditTextの入力を監視する
+        // EditTextの入力を監視して、文字が入力されたら添削ボタンのenableを更新する
         binding.englishCompositionInputField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -32,5 +36,14 @@ class MainActivity : AppCompatActivity() {
                 viewModel.updateCorrectionButtonEnabled()
             }
         })
+
+        // ローディング状態が変化したときにも添削ボタンのenableを更新する
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect {
+                    viewModel.updateCorrectionButtonEnabled()
+                }
+            }
+        }
     }
 }

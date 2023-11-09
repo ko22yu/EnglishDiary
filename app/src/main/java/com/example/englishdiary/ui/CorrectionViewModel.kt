@@ -53,6 +53,7 @@ class CorrectionViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.Failure -> {
+                    _isLoading.value = false
                     _error.value = true
                 }
 
@@ -106,6 +107,7 @@ class CorrectionViewModel @Inject constructor(
     }
 
     fun updateCorrectionButtonEnabled() {
-        _isCorrectionButtonEnabled.value = inputEnglishText.value?.isNotEmpty()
+        _isCorrectionButtonEnabled.value =
+            inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
     }
 }
