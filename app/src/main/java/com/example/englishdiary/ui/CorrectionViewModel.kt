@@ -1,7 +1,7 @@
 package com.example.englishdiary.ui
 
-import android.content.Context
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -115,8 +115,7 @@ class CorrectionViewModel @Inject constructor(
             inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
     }
 
-    fun showNetworkErrorToast(context: Context) {
-        val toast: Toast = Toast.makeText(context, R.string.toast_error_message, Toast.LENGTH_LONG)
-        toast.show()
+    fun showNetworkErrorToast(context: FragmentActivity?) {
+        Toast.makeText(context, R.string.toast_error_message, Toast.LENGTH_LONG).show()
     }
 }
