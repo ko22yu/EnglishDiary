@@ -1,9 +1,12 @@
 package com.example.englishdiary.ui
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishdiary.R
 import com.example.englishdiary.common.Constants
 import com.example.englishdiary.common.NetworkResponse
 import com.example.englishdiary.data.remote.Message
@@ -16,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+
 
 @HiltViewModel
 class CorrectionViewModel @Inject constructor(
@@ -109,5 +113,10 @@ class CorrectionViewModel @Inject constructor(
     fun updateCorrectionButtonEnabled() {
         _isCorrectionButtonEnabled.value =
             inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
+    }
+
+    fun showNetworkErrorToast(context: Context) {
+        val toast: Toast = Toast.makeText(context, R.string.toast_error_message, Toast.LENGTH_LONG)
+        toast.show()
     }
 }

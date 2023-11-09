@@ -45,5 +45,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect {
+                    if (viewModel.error.value)
+                        viewModel.showNetworkErrorToast(context = this@MainActivity)
+                }
+            }
+        }
     }
 }
