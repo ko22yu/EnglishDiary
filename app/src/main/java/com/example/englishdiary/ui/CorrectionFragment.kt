@@ -1,4 +1,4 @@
-package com.example.englishdiary
+package com.example.englishdiary.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.englishdiary.databinding.FragmentCorrectionBinding
-import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,19 +46,8 @@ class CorrectionFragment : Fragment() {
 
         // ローディング状態が変化したときにも添削ボタンのenableを更新する
         lifecycleScope.launch {
-            lifecycleScope.launch {
-                viewModel.isLoading.collect {
-                    viewModel.updateCorrectionButtonEnabled()
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            lifecycleScope.launch {
-                viewModel.error.collect {
-                    if (viewModel.error.value)
-                        viewModel.showNetworkErrorToast(context = activity)
-                }
+            viewModel.isLoading.collect {
+                viewModel.updateCorrectionButtonEnabled()
             }
         }
     }

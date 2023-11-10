@@ -1,14 +1,12 @@
 package com.example.englishdiary.ui
 
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.englishdiary.R
 import com.example.englishdiary.common.Constants
 import com.example.englishdiary.common.NetworkResponse
+import com.example.englishdiary.common.SingleLiveEvent
 import com.example.englishdiary.data.remote.Message
 import com.example.englishdiary.domain.model.CorrectionResult
 import com.example.englishdiary.domain.model.DiaryExample
@@ -25,6 +23,9 @@ import javax.inject.Inject
 class CorrectionViewModel @Inject constructor(
     private val correctionUseCase: CorrectionUseCase
 ) : ViewModel() {
+
+    private val _navigateToError: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val navigateToError: LiveData<Unit> = _navigateToError
 
     private var _diaryExample: MutableStateFlow<DiaryExample> = MutableStateFlow(DiaryExample(""))
     val diaryExample = _diaryExample.asStateFlow()
@@ -59,6 +60,7 @@ class CorrectionViewModel @Inject constructor(
                 is NetworkResponse.Failure -> {
                     _isLoading.value = false
                     _error.value = true
+                    _navigateToError.value = Unit
                 }
 
                 is NetworkResponse.Loading -> {
@@ -81,7 +83,9 @@ class CorrectionViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.Failure -> {
+                    _isLoading.value = false
                     _error.value = true
+                    _navigateToError.value = Unit
                 }
 
                 is NetworkResponse.Loading -> {
@@ -113,9 +117,5 @@ class CorrectionViewModel @Inject constructor(
     fun updateCorrectionButtonEnabled() {
         _isCorrectionButtonEnabled.value =
             inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
-    }
-
-    fun showNetworkErrorToast(context: FragmentActivity?) {
-        Toast.makeText(context, R.string.toast_error_message, Toast.LENGTH_LONG).show()
     }
 }

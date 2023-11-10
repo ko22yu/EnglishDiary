@@ -2,5 +2,6 @@
     <string name="app_name">EnglishDiary</string>
     <string name="correction_button">添削してもらう！</string>
     <string name="english_composition_field_hint">英作文してみましょう...</string>
-    <string name="toast_error_message">ネットワーク通信に失敗しました</string>
+    <string name="network_error_message">ネットワーク通信に失敗しました</string>
+    <string name="reload">再読み込み</string>
 </resources>
