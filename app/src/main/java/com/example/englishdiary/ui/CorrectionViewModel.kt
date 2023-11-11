@@ -26,6 +26,8 @@ class CorrectionViewModel @Inject constructor(
 
     private val _navigateToError: SingleLiveEvent<Unit> = SingleLiveEvent()
     val navigateToError: LiveData<Unit> = _navigateToError
+    private val _navigateToCorrection: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val navigateToCorrection: LiveData<Unit> = _navigateToCorrection
 
     private var _diaryExample: MutableStateFlow<DiaryExample> = MutableStateFlow(DiaryExample(""))
     val diaryExample = _diaryExample.asStateFlow()
@@ -49,12 +51,23 @@ class CorrectionViewModel @Inject constructor(
         )
     }
 
-    fun getDiaryExample(messages: List<Message?>?) {
+    fun onRefresh(currentFragmentIsErrorFragment: Boolean = false) {
+        getDiaryExample(
+            listOf(Message(role = "user", content = Constants.PROMPT_TO_GET_EXAMPLE_DIARY)),
+            currentFragmentIsErrorFragment = currentFragmentIsErrorFragment,
+        )
+    }
+
+    fun getDiaryExample(
+        messages: List<Message?>?,
+        currentFragmentIsErrorFragment: Boolean = false
+    ) {
         correctionUseCase.getDiaryExample(messages).onEach {
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
                     _diaryExample.value = it.data!!
+                    if (currentFragmentIsErrorFragment) _navigateToCorrection.value = Unit
                 }
 
                 is NetworkResponse.Failure -> {

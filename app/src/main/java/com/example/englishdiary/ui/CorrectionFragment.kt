@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.englishdiary.R
 import com.example.englishdiary.databinding.FragmentCorrectionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +31,12 @@ class CorrectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.navigateToError.observe(viewLifecycleOwner) {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ErrorFragment())
+                .commit()
+        }
 
         binding.correctionButton.setOnClickListener {
             viewModel.onClickCorrectionButton()
