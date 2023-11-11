@@ -132,7 +132,7 @@ class CorrectionViewModel @Inject constructor(
         }
 
         diaryExampleAndEnglishCompositionList.forEach {
-            Constants.PROMPT_FOR_CORRECTION += it
+            Constants.PROMPT_FOR_CORRECTION += it + "\n"
         }
     }
 
