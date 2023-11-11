@@ -55,7 +55,7 @@ object Constants {
         }
         \`\`\`
     """
-    const val DEBUG_PROMPT_FOR_CORRECTION = """
+    var DEBUG_PROMPT_FOR_CORRECTION = """
         Please output the following.
         This is an answer.
         \`\`\`json

@@ -47,13 +47,13 @@ class CorrectionViewModel @Inject constructor(
 
     init {
         getDiaryExample(
-            listOf(Message(role = "user", content = Constants.PROMPT_TO_GET_EXAMPLE_DIARY))
+            listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY))
         )
     }
 
     fun onRefresh(currentFragmentIsErrorFragment: Boolean = false) {
         getDiaryExample(
-            listOf(Message(role = "user", content = Constants.PROMPT_TO_GET_EXAMPLE_DIARY)),
+            listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY)),
             currentFragmentIsErrorFragment = currentFragmentIsErrorFragment,
         )
     }
