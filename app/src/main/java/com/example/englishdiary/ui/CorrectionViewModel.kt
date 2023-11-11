@@ -1,5 +1,6 @@
 package com.example.englishdiary.ui
 
+import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -40,12 +42,20 @@ class CorrectionViewModel @Inject constructor(
     private val _isCorrectionButtonEnabled = MutableLiveData<Boolean>()
     val isCorrectionButtonEnabled: LiveData<Boolean> = _isCorrectionButtonEnabled
 
-    private var _isLoading = MutableStateFlow(true)
+    private var _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
-    private var _error = MutableStateFlow(false)
-    val error = _error.asStateFlow()
+    private var _showNetworkErrorToastInErrorFragment = MutableStateFlow(false)
+    val showNetworkErrorToastInErrorFragment = _showNetworkErrorToastInErrorFragment.asStateFlow()
+
+    private var _progressBarVisibility: MutableStateFlow<Int> =
+        MutableStateFlow(ProgressBar.VISIBLE)
+    val progressBarVisibility = _progressBarVisibility.asStateFlow()
 
     init {
+        watchProgressBarVisibility()
+    }
+
+    fun onCreate() {
         getDiaryExample(
             listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY))
         )
@@ -66,14 +76,14 @@ class CorrectionViewModel @Inject constructor(
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
-                    _diaryExample.value = it.data!!
                     if (currentFragmentIsErrorFragment) _navigateToCorrection.value = Unit
+                    _diaryExample.value = it.data ?: DiaryExample("")
                 }
 
                 is NetworkResponse.Failure -> {
                     _isLoading.value = false
-                    _error.value = true
-                    _navigateToError.value = Unit
+                    if (!currentFragmentIsErrorFragment) _navigateToError.value = Unit
+                    else _showNetworkErrorToastInErrorFragment.value = true
                 }
 
                 is NetworkResponse.Loading -> {
@@ -97,7 +107,6 @@ class CorrectionViewModel @Inject constructor(
 
                 is NetworkResponse.Failure -> {
                     _isLoading.value = false
-                    _error.value = true
                     _navigateToError.value = Unit
                 }
 
@@ -130,5 +139,14 @@ class CorrectionViewModel @Inject constructor(
     fun updateCorrectionButtonEnabled() {
         _isCorrectionButtonEnabled.value =
             inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
+    }
+
+    private fun watchProgressBarVisibility() {
+        viewModelScope.launch {
+            isLoading.collect {
+                if (it) _progressBarVisibility.value = ProgressBar.VISIBLE
+                else _progressBarVisibility.value = ProgressBar.INVISIBLE
+            }
+        }
     }
 }
