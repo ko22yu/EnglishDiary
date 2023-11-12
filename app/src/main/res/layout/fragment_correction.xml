@@ -25,19 +25,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/englishCompositionInputField"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/englishCompositionInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="64dp"
             android:layout_marginHorizontal="48dp"
             android:layout_marginTop="36dp"
-            android:text="@={vm.inputEnglishText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dairyExampleText"
-            android:hint="@string/english_composition_field_hint"
-            android:inputType="textMultiLine" />
+            android:hint="@string/english_composition_field_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/englishCompositionInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={vm.inputEnglishText}"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/correctionButton"
@@ -48,7 +54,7 @@
             android:enabled="@{vm.isCorrectionButtonEnabled}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/englishCompositionInputField" />
+            app:layout_constraintTop_toBottomOf="@+id/englishCompositionInputLayout" />
 
         <TextView
             android:id="@+id/correctionResult"
