@@ -38,7 +38,7 @@ class ErrorFragment : Fragment() {
 
             viewModel.navigateToCorrection.observe(viewLifecycleOwner) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, CorrectionFragment())
+                    .replace(R.id.fragment_container, CompositionFragment())
                     .commit()
             }
         }

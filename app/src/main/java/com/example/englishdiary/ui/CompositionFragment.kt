@@ -10,20 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.englishdiary.R
-import com.example.englishdiary.databinding.FragmentCorrectionBinding
+import com.example.englishdiary.databinding.FragmentCompositionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CorrectionFragment : Fragment() {
-    private lateinit var binding: FragmentCorrectionBinding
+class CompositionFragment : Fragment() {
+    private lateinit var binding: FragmentCompositionBinding
     private val viewModel: CorrectionViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCorrectionBinding.inflate(inflater, container, false)
+        binding = FragmentCompositionBinding.inflate(inflater, container, false)
         binding.vm = viewModel
         binding.lifecycleOwner = this
         return binding.root
