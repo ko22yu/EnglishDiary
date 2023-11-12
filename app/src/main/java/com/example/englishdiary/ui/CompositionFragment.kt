@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.englishdiary.R
 import com.example.englishdiary.databinding.FragmentCompositionBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,12 +33,16 @@ class CompositionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (viewModel.diaryExample.value?.content == "") viewModel.onCreate()
+        val navController = view.findNavController()
+
+        if (viewModel.diaryExample.value.content == "") viewModel.onCreate()
 
         viewModel.navigateToError.observe(viewLifecycleOwner) {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ErrorFragment())
-                .commit()
+            navController.navigate(R.id.action_compositionFragment_to_errorFragment)
+        }
+
+        viewModel.navigateToCorrectionResult.observe(viewLifecycleOwner) {
+            navController.navigate(R.id.action_compositionFragment_to_correctionResultFragment)
         }
 
         binding.correctionButton.setOnClickListener {

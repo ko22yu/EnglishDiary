@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/compositionFragment">
+
+    <fragment
+        android:id="@+id/compositionFragment"
+        android:name="com.example.englishdiary.ui.CompositionFragment"
+        android:label="CompositionFragment">
+        <action
+            android:id="@+id/action_compositionFragment_to_correctionResultFragment"
+            app:destination="@id/correctionResultFragment" />
+        <action
+            android:id="@+id/action_compositionFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="com.example.englishdiary.ui.ErrorFragment"
+        android:label="ErrorFragment">
+        <action
+            android:id="@+id/action_errorFragment_to_compositionFragment"
+            app:destination="@id/compositionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/correctionResultFragment"
+        android:name="com.example.englishdiary.ui.CorrectionResultFragment"
+        android:label="CorrectionResultFragment">
+        <action
+            android:id="@+id/action_correctionResultFragment_to_compositionFragment"
+            app:destination="@id/compositionFragment" />
+        <!--        <argument-->
+        <!--            android:name="title"-->
+        <!--            app:argType="string" />-->
+    </fragment>
+</navigation>

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.example.englishdiary.R
 import com.example.englishdiary.databinding.FragmentErrorBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,13 +34,13 @@ class ErrorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navController = view.findNavController()
+
         binding.reloadButton.setOnClickListener {
             viewModel.onRefresh(currentFragmentIsErrorFragment = true)
 
-            viewModel.navigateToCorrection.observe(viewLifecycleOwner) {
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, CompositionFragment())
-                    .commit()
+            viewModel.navigateToComposition.observe(viewLifecycleOwner) {
+                navController.navigate(R.id.action_errorFragment_to_compositionFragment)
             }
         }
 

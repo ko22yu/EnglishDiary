@@ -28,8 +28,10 @@ class CorrectionViewModel @Inject constructor(
 
     private val _navigateToError: SingleLiveEvent<Unit> = SingleLiveEvent()
     val navigateToError: LiveData<Unit> = _navigateToError
-    private val _navigateToCorrection: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val navigateToCorrection: LiveData<Unit> = _navigateToCorrection
+    private val _navigateToComposition: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val navigateToComposition: LiveData<Unit> = _navigateToComposition
+    private val _navigateToCorrectionResult: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val navigateToCorrectionResult: LiveData<Unit> = _navigateToCorrectionResult
 
     private var _diaryExample: MutableStateFlow<DiaryExample> = MutableStateFlow(DiaryExample(""))
     val diaryExample = _diaryExample.asStateFlow()
@@ -76,7 +78,7 @@ class CorrectionViewModel @Inject constructor(
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
-                    if (currentFragmentIsErrorFragment) _navigateToCorrection.value = Unit
+                    if (currentFragmentIsErrorFragment) _navigateToComposition.value = Unit
                     _diaryExample.value = it.data ?: DiaryExample("")
                 }
 
@@ -102,6 +104,7 @@ class CorrectionViewModel @Inject constructor(
             when (networkState) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
+                    _navigateToCorrectionResult.value = Unit
                     _correctionResults.value = networkState.data ?: listOf()
                 }
 
