@@ -1,6 +1,8 @@
 package com.example.englishdiary
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -8,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.englishdiary.ui.dialog.SettingDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,15 +30,33 @@ class MainActivity : AppCompatActivity() {
         // 特定のフラグメントだけToolbarを表示させない
         navController.addOnDestinationChangedListener { _, destination, _ ->
             toolbar.visibility =
-                if ((destination.id == R.id.errorFragment) or (destination.id == R.id.compositionFragment)) View.GONE else View.VISIBLE
-            supportActionBar?.title =
-                if (destination.id == R.id.correctionResultFragment) "添削結果" else ""
+                if (destination.id == R.id.errorFragment) View.GONE else View.VISIBLE
+//            supportActionBar?.title =
+//                if (destination.id == R.id.correctionResultFragment) "添削結果" else ""
         }
         // 特定のフラグメントだけUpアイコンを表示させない
         val appBarConfiguration =
             AppBarConfiguration(setOf(R.id.errorFragment, R.id.compositionFragment))
 
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.setting_button -> {
+                SettingDialogFragment().show(
+                    supportFragmentManager,
+                    SettingDialogFragment::class.simpleName
+                )
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {

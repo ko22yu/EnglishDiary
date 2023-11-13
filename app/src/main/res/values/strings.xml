@@ -4,4 +4,9 @@
     <string name="english_composition_field_hint">英作文してみましょう...</string>
     <string name="network_error_message">ネットワーク通信に失敗しました</string>
     <string name="reload">再読み込み</string>
+    <string name="follow_system">システムにしたがう</string>
+    <string name="light">ライト</string>
+    <string name="dark">ダーク</string>
+    <string name="dark_mode">ダークモード</string>
+    <string name="setting">設定</string>
 </resources>
