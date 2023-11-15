@@ -31,10 +31,10 @@
 
             <TextView
                 android:id="@+id/ja_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ic_ja"
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="こんにちは。" />
@@ -51,9 +51,10 @@
 
             <TextView
                 android:id="@+id/corrected_en_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ic_en"
                 app:layout_constraintTop_toBottomOf="@+id/ja_text"
                 tool:text="Hello." />
@@ -70,9 +71,10 @@
 
             <TextView
                 android:id="@+id/reason_for_correction"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ic_comment"
                 app:layout_constraintTop_toBottomOf="@+id/corrected_en_text"
                 tool:text="'こんにちは'の翻訳は'Hello'です。" />
