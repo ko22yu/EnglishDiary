@@ -26,7 +26,7 @@ class SettingViewModel @Inject constructor(
 ) : ViewModel() {
     private val context: Context = application.applicationContext
 
-    private val _nightModePreference = MutableStateFlow(MODE_NIGHT_FOLLOW_SYSTEM)
+    private val _nightModePreference = MutableStateFlow(Int.MIN_VALUE)
     val nightModePreference: StateFlow<Int> get() = _nightModePreference
 
     init {
@@ -37,7 +37,8 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             context.dataStore.data
                 .map { preferences ->
-                    preferences[NIGHT_MODE_PREFERENCE] ?: MODE_NIGHT_FOLLOW_SYSTEM
+                    val mode = preferences[NIGHT_MODE_PREFERENCE] ?: MODE_NIGHT_FOLLOW_SYSTEM
+                    if (mode != Int.MIN_VALUE) mode else MODE_NIGHT_FOLLOW_SYSTEM
                 }
                 .collect { value ->
                     _nightModePreference.value = value
@@ -45,10 +46,10 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun setNightModePreference(nightMode: Int) {
+    fun setNightModePreference(mode: Int) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
-                preferences[NIGHT_MODE_PREFERENCE] = nightMode
+                preferences[NIGHT_MODE_PREFERENCE] = mode
             }
         }
     }

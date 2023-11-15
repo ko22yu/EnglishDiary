@@ -27,7 +27,7 @@ class SettingDialogFragment : DialogFragment() {
 
         binding = FragmentSettingDialogBinding.inflate(requireActivity().layoutInflater)
 
-        binding.darkModePreferenceRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.darkModePreferenceRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.follow_system_radio_button -> {
                     if (binding.followSystemRadioButton.isChecked) {
