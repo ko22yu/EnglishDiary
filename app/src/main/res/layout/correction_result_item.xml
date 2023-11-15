@@ -19,27 +19,61 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp">
 
+            <ImageView
+                android:id="@+id/ic_ja"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/ja_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ja_text"
+                app:srcCompat="@drawable/ic_ja" />
+
             <TextView
                 android:id="@+id/ja_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_ja"
                 app:layout_constraintTop_toTopOf="parent"
                 tool:text="こんにちは。" />
+
+            <ImageView
+                android:id="@+id/ic_en"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/corrected_en_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/corrected_en_text"
+                app:srcCompat="@drawable/ic_en" />
 
             <TextView
                 android:id="@+id/corrected_en_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_en"
                 app:layout_constraintTop_toBottomOf="@+id/ja_text"
                 tool:text="Hello." />
+
+            <ImageView
+                android:id="@+id/ic_comment"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/reason_for_correction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reason_for_correction"
+                app:srcCompat="@drawable/ic_comment" />
 
             <TextView
                 android:id="@+id/reason_for_correction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_comment"
                 app:layout_constraintTop_toBottomOf="@+id/corrected_en_text"
                 tool:text="'こんにちは'の翻訳は'Hello'です。" />
 
