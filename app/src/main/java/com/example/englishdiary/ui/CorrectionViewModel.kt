@@ -1,5 +1,6 @@
 package com.example.englishdiary.ui
 
+import android.util.Log
 import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -86,6 +87,7 @@ class CorrectionViewModel @Inject constructor(
                     _isLoading.value = false
                     if (!currentFragmentIsErrorFragment) _navigateToError.value = Unit
                     else _showNetworkErrorToastInErrorFragment.value = true
+                    Log.d("log-networkResponseFailure", it.error.toString())
                 }
 
                 is NetworkResponse.Loading -> {
