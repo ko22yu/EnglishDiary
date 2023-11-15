@@ -4,18 +4,25 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.englishdiary.ui.dialog.SettingDialogFragment
+import com.example.englishdiary.ui.dialog.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+    private val viewModel: SettingViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +46,12 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(setOf(R.id.errorFragment, R.id.compositionFragment))
 
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        lifecycleScope.launch {
+            viewModel.nightModePreference.collect { mode ->
+                AppCompatDelegate.setDefaultNightMode(mode)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
