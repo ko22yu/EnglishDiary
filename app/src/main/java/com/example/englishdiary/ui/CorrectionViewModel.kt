@@ -1,6 +1,7 @@
 package com.example.englishdiary.ui
 
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -51,15 +52,22 @@ class CorrectionViewModel @Inject constructor(
     val isLoading = _isLoading.asStateFlow()
     private var _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
+    private var _isBeingCorrected = MutableStateFlow(false)
+    val isBeingCorrected = _isBeingCorrected.asStateFlow()
     private var _showNetworkErrorToastInErrorFragment = MutableStateFlow(false)
     val showNetworkErrorToastInErrorFragment = _showNetworkErrorToastInErrorFragment.asStateFlow()
 
     private var _progressBarVisibility: MutableStateFlow<Int> =
         MutableStateFlow(ProgressBar.VISIBLE)
     val progressBarVisibility = _progressBarVisibility.asStateFlow()
+    private var _placeHolderForDiaryExampleTextVisibility: MutableStateFlow<Int> =
+        MutableStateFlow(View.VISIBLE)
+    val placeHolderForDiaryExampleTextVisibility =
+        _placeHolderForDiaryExampleTextVisibility.asStateFlow()
 
     init {
         watchProgressBarVisibility()
+        watchPlaceHolderVisibility()
     }
 
     fun onCreate() {
@@ -126,17 +134,20 @@ class CorrectionViewModel @Inject constructor(
             when (networkState) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
+                    _isBeingCorrected.value = false
                     _navigateToCorrectionResult.value = Unit
                     _correctionResults.value = networkState.data ?: listOf()
                 }
 
                 is NetworkResponse.Failure -> {
                     _isLoading.value = false
+                    _isBeingCorrected.value = false
                     _navigateToError.value = Unit
                 }
 
                 is NetworkResponse.Loading -> {
                     _isLoading.value = true
+                    _isBeingCorrected.value = true
                 }
             }
         }.launchIn(viewModelScope)
@@ -165,6 +176,7 @@ class CorrectionViewModel @Inject constructor(
         _isCorrectionButtonEnabled.value =
             inputEnglishText.value?.isNotEmpty() == true && !isLoading.value && !isRefreshing.value
     }
+
     fun updateCorrectionEditTextEnabled() {
         _isCorrectionEditTextEnabled.value = !isLoading.value && !isRefreshing.value
     }
@@ -174,6 +186,16 @@ class CorrectionViewModel @Inject constructor(
             isLoading.collect {
                 if (it and !isRefreshing.value) _progressBarVisibility.value = ProgressBar.VISIBLE
                 else _progressBarVisibility.value = ProgressBar.INVISIBLE
+            }
+        }
+    }
+
+    private fun watchPlaceHolderVisibility() {
+        viewModelScope.launch {
+            isLoading.collect {
+                if (it and !isRefreshing.value and !isBeingCorrected.value)
+                    _placeHolderForDiaryExampleTextVisibility.value = View.VISIBLE
+                else _placeHolderForDiaryExampleTextVisibility.value = View.INVISIBLE
             }
         }
     }

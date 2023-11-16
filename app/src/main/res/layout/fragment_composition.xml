@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="48dp"
-                android:visibility="@{vm.progressBarVisibility}"
+                android:visibility="@{vm.placeHolderForDiaryExampleTextVisibility}"
                 app:cardElevation="1dp"
                 app:cardCornerRadius="5dp"
                 app:cardUseCompatPadding="true"
