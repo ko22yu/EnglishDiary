@@ -61,6 +61,7 @@ class CompositionFragment : Fragment() {
         // ローディング状態が変化したときにも添削ボタンのenableを更新する
         lifecycleScope.launch {
             viewModel.isLoading.collect {
+                viewModel.updateCorrectionEditTextEnabled()
                 viewModel.updateCorrectionButtonEnabled()
             }
         }

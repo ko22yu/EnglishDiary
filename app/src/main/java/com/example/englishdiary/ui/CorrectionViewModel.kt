@@ -44,6 +44,8 @@ class CorrectionViewModel @Inject constructor(
     val inputEnglishText = MutableLiveData<String>()
     private val _isCorrectionButtonEnabled = MutableLiveData<Boolean>()
     val isCorrectionButtonEnabled: LiveData<Boolean> = _isCorrectionButtonEnabled
+    private val _isCorrectionEditTextEnabled = MutableLiveData<Boolean>()
+    val isCorrectionEditTextEnabled: LiveData<Boolean> = _isCorrectionEditTextEnabled
 
     private var _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -161,7 +163,10 @@ class CorrectionViewModel @Inject constructor(
 
     fun updateCorrectionButtonEnabled() {
         _isCorrectionButtonEnabled.value =
-            inputEnglishText.value?.isNotEmpty() == true && !isLoading.value
+            inputEnglishText.value?.isNotEmpty() == true && !isLoading.value && !isRefreshing.value
+    }
+    fun updateCorrectionEditTextEnabled() {
+        _isCorrectionEditTextEnabled.value = !isLoading.value && !isRefreshing.value
     }
 
     private fun watchProgressBarVisibility() {

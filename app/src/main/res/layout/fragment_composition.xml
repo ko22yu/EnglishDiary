@@ -47,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={vm.inputEnglishText}"
+                    android:enabled="@{vm.isCorrectionEditTextEnabled}"
                     android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
