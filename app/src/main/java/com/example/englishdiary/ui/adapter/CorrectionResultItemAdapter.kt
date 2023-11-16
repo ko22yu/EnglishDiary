@@ -1,4 +1,4 @@
-package com.example.englishdiary.ui.dialog.adapter
+package com.example.englishdiary.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

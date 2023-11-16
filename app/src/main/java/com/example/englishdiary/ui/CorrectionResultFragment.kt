@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishdiary.databinding.FragmentCorrectionResultBinding
-import com.example.englishdiary.ui.dialog.adapter.CorrectionResultItemAdapter
+import com.example.englishdiary.ui.adapter.CorrectionResultItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
