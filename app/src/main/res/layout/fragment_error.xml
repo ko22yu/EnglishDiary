@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.ErrorFragment">
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/errorMessage"
+                android:id="@+id/error_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/network_error_message"
@@ -35,7 +35,7 @@
 
             <Button
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:id="@+id/reloadButton"
+                android:id="@+id/reload_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
@@ -43,12 +43,12 @@
                 android:minWidth="256dp"
                 android:minHeight="64dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/errorMessage"
-                app:layout_constraintStart_toStartOf="@+id/errorMessage"
-                app:layout_constraintTop_toBottomOf="@+id/errorMessage" />
+                app:layout_constraintEnd_toEndOf="@+id/error_message"
+                app:layout_constraintStart_toStartOf="@+id/error_message"
+                app:layout_constraintTop_toBottomOf="@+id/error_message" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="@{vm.progressBarVisibility}"

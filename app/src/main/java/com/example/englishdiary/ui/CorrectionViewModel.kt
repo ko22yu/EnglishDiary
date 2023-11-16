@@ -47,6 +47,8 @@ class CorrectionViewModel @Inject constructor(
 
     private var _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+    private var _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
     private var _showNetworkErrorToastInErrorFragment = MutableStateFlow(false)
     val showNetworkErrorToastInErrorFragment = _showNetworkErrorToastInErrorFragment.asStateFlow()
 
@@ -64,21 +66,34 @@ class CorrectionViewModel @Inject constructor(
         )
     }
 
-    fun onRefresh(currentFragmentIsErrorFragment: Boolean = false) {
+    fun onRefresh(
+        currentFragmentIsErrorFragment: Boolean = false,
+        isCalledFromOnRefresh: Boolean = true,
+    ) {
         getDiaryExample(
-            listOf(Message(role = "user", content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY)),
+            listOf(
+                Message(
+                    role = "user",
+                    content = Constants.DEBUG_PROMPT_TO_GET_EXAMPLE_DIARY
+                )
+            ),
             currentFragmentIsErrorFragment = currentFragmentIsErrorFragment,
+            isCalledFromOnRefresh = isCalledFromOnRefresh,
         )
     }
 
     fun getDiaryExample(
         messages: List<Message?>?,
-        currentFragmentIsErrorFragment: Boolean = false
+        currentFragmentIsErrorFragment: Boolean = false,
+        isCalledFromOnRefresh: Boolean = false,
     ) {
         correctionUseCase.getDiaryExample(messages).onEach {
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
+                    if (isCalledFromOnRefresh and !currentFragmentIsErrorFragment) {
+                        _isRefreshing.value = false
+                    }
                     if (currentFragmentIsErrorFragment) _navigateToComposition.value = Unit
                     _diaryExample.value = it.data ?: DiaryExample("")
                 }
@@ -92,6 +107,9 @@ class CorrectionViewModel @Inject constructor(
 
                 is NetworkResponse.Loading -> {
                     _isLoading.value = true
+                    if (isCalledFromOnRefresh and !currentFragmentIsErrorFragment) {
+                        _isRefreshing.value = true
+                    }
                 }
             }
         }.launchIn(viewModelScope)
@@ -149,7 +167,7 @@ class CorrectionViewModel @Inject constructor(
     private fun watchProgressBarVisibility() {
         viewModelScope.launch {
             isLoading.collect {
-                if (it) _progressBarVisibility.value = ProgressBar.VISIBLE
+                if (it and !isRefreshing.value) _progressBarVisibility.value = ProgressBar.VISIBLE
                 else _progressBarVisibility.value = ProgressBar.INVISIBLE
             }
         }

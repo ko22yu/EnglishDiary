@@ -64,6 +64,15 @@ class CompositionFragment : Fragment() {
                 viewModel.updateCorrectionButtonEnabled()
             }
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.onRefresh()
+            lifecycleScope.launch {
+                viewModel.isRefreshing.collect {
+                    if (!it) binding.swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        }
     }
 
 }
