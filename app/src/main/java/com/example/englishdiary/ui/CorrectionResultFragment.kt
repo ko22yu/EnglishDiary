@@ -41,6 +41,10 @@ class CorrectionResultFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.correctionResults.collect { items ->
+                val inputEnglishSentenceList = viewModel.inputEnglishText.value?.split(".")
+                items.mapIndexed { index, correctionResult ->
+                    correctionResult.enText = inputEnglishSentenceList?.get(index) ?: ""
+                }
                 correctionResultAdapter.submitList(items)
             }
         }

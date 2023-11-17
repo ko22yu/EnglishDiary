@@ -44,6 +44,26 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@+id/en_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/en_text"
+                app:srcCompat="@drawable/ic_en" />
+
+            <TextView
+                android:id="@+id/en_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ic_en"
+                app:layout_constraintTop_toBottomOf="@+id/ja_text"
+                tool:text="Hello." />
+
+            <ImageView
+                android:id="@+id/ic_corrected_en"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
                 app:layout_constraintBottom_toBottomOf="@+id/corrected_en_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/corrected_en_text"
@@ -55,8 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ic_en"
-                app:layout_constraintTop_toBottomOf="@+id/ja_text"
+                app:layout_constraintStart_toEndOf="@id/ic_corrected_en"
+                app:layout_constraintTop_toBottomOf="@+id/en_text"
                 tool:text="Hello." />
 
             <ImageView

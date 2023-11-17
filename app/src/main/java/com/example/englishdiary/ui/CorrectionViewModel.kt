@@ -39,7 +39,7 @@ class CorrectionViewModel @Inject constructor(
     val diaryExample = _diaryExample.asStateFlow()
     private var _correctionResults: MutableStateFlow<List<CorrectionResult>> =
         MutableStateFlow(
-            listOf(CorrectionResult(correctedEnText = "", jaText = "", reasonForCorrection = ""))
+            listOf(CorrectionResult(enText = "", correctedEnText = "", jaText = "", reasonForCorrection = ""))
         )
     val correctionResults = _correctionResults.asStateFlow()
     val inputEnglishText = MutableLiveData<String>()
@@ -103,6 +103,7 @@ class CorrectionViewModel @Inject constructor(
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
+                    inputEnglishText.value = ""
                     if (isCalledFromPullToRefresh and !currentFragmentIsErrorFragment) {
                         _isRefreshing.value = false
                     }
@@ -180,7 +181,7 @@ class CorrectionViewModel @Inject constructor(
     }
 
     fun updateCorrectionEditTextEnabled() {
-        _isCorrectionEditTextEnabled.value = !isLoading.value && !isRefreshing.value
+        _isCorrectionEditTextEnabled.value = !(isLoading.value && isRefreshing.value)
     }
 
     private fun watchProgressBarVisibility() {

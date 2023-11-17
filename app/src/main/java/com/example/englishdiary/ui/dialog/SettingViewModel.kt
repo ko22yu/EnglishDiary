@@ -14,6 +14,7 @@ import com.example.englishdiary.common.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,6 +32,9 @@ class SettingViewModel @Inject constructor(
     val diaryExampleTextLengthPreference: StateFlow<Int> get() = _diaryExampleTextLengthPreference
     private val _nightModePreference = MutableStateFlow(Int.MIN_VALUE)
     val nightModePreference: StateFlow<Int> get() = _nightModePreference
+
+    private val _beginningTextLengthPreference = MutableStateFlow<Int?>(null)
+    val beginningTextLengthPreference = _beginningTextLengthPreference.asStateFlow()
 
     init {
         readNightModePreference()
@@ -60,5 +64,9 @@ class SettingViewModel @Inject constructor(
     fun setDiaryExampleTextLengthPreference(length: Int) {
         Constants.length = length
         _diaryExampleTextLengthPreference.value = length
+    }
+
+    fun setBeginningTextLengthPreference() {
+        _beginningTextLengthPreference.value = diaryExampleTextLengthPreference.value
     }
 }

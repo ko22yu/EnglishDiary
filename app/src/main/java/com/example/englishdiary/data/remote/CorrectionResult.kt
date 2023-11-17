@@ -20,6 +20,7 @@ data class CorrectionResult(
         ): List<modelCorrectionResult> {
             return remoteCorrectionResultList.map {
                 modelCorrectionResult(
+                    enText = "",
                     correctedEnText = it.correctedEnText,
                     jaText = it.jaText,
                     reasonForCorrection = it.reasonForCorrection

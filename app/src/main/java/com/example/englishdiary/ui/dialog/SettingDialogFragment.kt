@@ -24,6 +24,7 @@ class SettingDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentSettingDialogBinding
     private val viewModel: SettingViewModel by viewModels()
     private val correctionViewModel: CorrectionViewModel by activityViewModels()
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
 
@@ -104,15 +105,15 @@ class SettingDialogFragment : DialogFragment() {
         val width = (resources.displayMetrics.widthPixels * 0.8).toInt()
         val height = (resources.displayMetrics.heightPixels * 0.7).toInt()
         dialog?.window?.setLayout(width, height)
+
+        viewModel.setBeginningTextLengthPreference()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        lifecycleScope.launch {
-            viewModel.diaryExampleTextLengthPreference.collect {
-                correctionViewModel.onRefresh(isCalledFromPullToRefresh = false)
-            }
+        if (viewModel.beginningTextLengthPreference.value != viewModel.diaryExampleTextLengthPreference.value) {
+            correctionViewModel.onRefresh(isCalledFromPullToRefresh = false)
         }
     }
 }

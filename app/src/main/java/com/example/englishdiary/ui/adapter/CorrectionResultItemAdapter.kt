@@ -16,6 +16,7 @@ class CorrectionResultItemAdapter
         RecyclerView.ViewHolder(binding.root) {
         fun bind(correctionResult: CorrectionResult) {
             binding.jaText.text = correctionResult.jaText
+            binding.enText.text = correctionResult.enText
             binding.correctedEnText.text = correctionResult.correctedEnText
             binding.reasonForCorrection.text = correctionResult.reasonForCorrection
         }
