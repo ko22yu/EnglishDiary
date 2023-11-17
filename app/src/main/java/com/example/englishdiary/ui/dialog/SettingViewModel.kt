@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishdiary.common.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +27,8 @@ class SettingViewModel @Inject constructor(
 ) : ViewModel() {
     private val context: Context = application.applicationContext
 
+    private val _diaryExampleTextLengthPreference = MutableStateFlow(Constants.MEDIUM_LENGTH)
+    val diaryExampleTextLengthPreference: StateFlow<Int> get() = _diaryExampleTextLengthPreference
     private val _nightModePreference = MutableStateFlow(Int.MIN_VALUE)
     val nightModePreference: StateFlow<Int> get() = _nightModePreference
 
@@ -52,5 +55,10 @@ class SettingViewModel @Inject constructor(
                 preferences[NIGHT_MODE_PREFERENCE] = mode
             }
         }
+    }
+
+    fun setDiaryExampleTextLengthPreference(length: Int) {
+        Constants.length = length
+        _diaryExampleTextLengthPreference.value = length
     }
 }

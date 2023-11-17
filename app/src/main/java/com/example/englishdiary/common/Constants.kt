@@ -8,22 +8,23 @@ object Constants {
     const val LONG_LENGTH = 150
     var length: Int = MEDIUM_LENGTH
 
-    var PROMPT_TO_GET_EXAMPLE_DIARY = """
-        You have high writing skills.
-        The output must be a markdown code snippet in Japanese formatted with the following schema:
-        \`\`\`json
-        {
-           diary_example: string, // diary content.
-        }
-        \`\`\`
-        
-        Notes.
-        * Diary content should be output around $length characters.
-        * Do not include anything other than JSON in your answer.
-        * Answers must be in Japanese.
-        
-        I would like to write a diary. Please give me an example sentence.
-    """
+    val PROMPT_TO_GET_EXAMPLE_DIARY: String
+        get() = """
+            You have high writing skills.
+            The output must be a markdown code snippet in Japanese formatted with the following schema:
+            \`\`\`json
+            {
+               diary_example: string, // diary content.
+            }
+            \`\`\`
+            
+            Notes.
+            * Diary content should be output around $length characters.
+            * Do not include anything other than JSON in your answer.
+            * Answers must be in Japanese.
+            
+            I would like to write a diary. Please give me an example sentence.
+        """
     var PROMPT_FOR_CORRECTION = """
         You are a great English teacher.
         Output a markdown code snippet in Japanese formatted with the following schema:

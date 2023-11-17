@@ -79,7 +79,7 @@ class CorrectionViewModel @Inject constructor(
 
     fun onRefresh(
         currentFragmentIsErrorFragment: Boolean = false,
-        isCalledFromOnRefresh: Boolean = true,
+        isCalledFromPullToRefresh: Boolean = true,
     ) {
         getDiaryExample(
             listOf(
@@ -89,20 +89,21 @@ class CorrectionViewModel @Inject constructor(
                 )
             ),
             currentFragmentIsErrorFragment = currentFragmentIsErrorFragment,
-            isCalledFromOnRefresh = isCalledFromOnRefresh,
+            isCalledFromPullToRefresh = isCalledFromPullToRefresh,
         )
     }
 
     fun getDiaryExample(
         messages: List<Message?>?,
         currentFragmentIsErrorFragment: Boolean = false,
-        isCalledFromOnRefresh: Boolean = false,
+        isCalledFromPullToRefresh: Boolean = false,
     ) {
+        Log.d("log-PROMPT_TO_GET_EXAMPLE_DIARY", Constants.PROMPT_TO_GET_EXAMPLE_DIARY)
         correctionUseCase.getDiaryExample(messages).onEach {
             when (it) {
                 is NetworkResponse.Success -> {
                     _isLoading.value = false
-                    if (isCalledFromOnRefresh and !currentFragmentIsErrorFragment) {
+                    if (isCalledFromPullToRefresh and !currentFragmentIsErrorFragment) {
                         _isRefreshing.value = false
                     }
                     if (currentFragmentIsErrorFragment) _navigateToComposition.value = Unit
@@ -118,7 +119,7 @@ class CorrectionViewModel @Inject constructor(
 
                 is NetworkResponse.Loading -> {
                     _isLoading.value = true
-                    if (isCalledFromOnRefresh and !currentFragmentIsErrorFragment) {
+                    if (isCalledFromPullToRefresh and !currentFragmentIsErrorFragment) {
                         _isRefreshing.value = true
                     }
                 }

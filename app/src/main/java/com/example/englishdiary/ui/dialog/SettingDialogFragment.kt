@@ -1,6 +1,7 @@
 package com.example.englishdiary.ui.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,11 +9,13 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.englishdiary.R
 import com.example.englishdiary.common.Constants
 import com.example.englishdiary.databinding.FragmentSettingDialogBinding
+import com.example.englishdiary.ui.CorrectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -20,6 +23,7 @@ import kotlinx.coroutines.launch
 class SettingDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentSettingDialogBinding
     private val viewModel: SettingViewModel by viewModels()
+    private val correctionViewModel: CorrectionViewModel by activityViewModels()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
 
@@ -32,19 +36,19 @@ class SettingDialogFragment : DialogFragment() {
             when (checkedId) {
                 R.id.short_length_radio_button -> {
                     if (binding.shortLengthRadioButton.isChecked) {
-                        Constants.length = Constants.SHORT_LENGTH
+                        viewModel.setDiaryExampleTextLengthPreference(Constants.SHORT_LENGTH)
                     }
                 }
 
                 R.id.medium_length_radio_button -> {
                     if (binding.mediumLengthRadioButton.isChecked) {
-                        Constants.length = Constants.MEDIUM_LENGTH
+                        viewModel.setDiaryExampleTextLengthPreference(Constants.MEDIUM_LENGTH)
                     }
                 }
 
                 R.id.long_length_radio_button -> {
                     if (binding.longLengthRadioButton.isChecked) {
-                        Constants.length = Constants.LONG_LENGTH
+                        viewModel.setDiaryExampleTextLengthPreference(Constants.LONG_LENGTH)
                     }
                 }
             }
@@ -102,4 +106,13 @@ class SettingDialogFragment : DialogFragment() {
         dialog?.window?.setLayout(width, height)
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
+        lifecycleScope.launch {
+            viewModel.diaryExampleTextLengthPreference.collect {
+                correctionViewModel.onRefresh(isCalledFromPullToRefresh = false)
+            }
+        }
+    }
 }
