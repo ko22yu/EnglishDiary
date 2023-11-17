@@ -35,8 +35,6 @@ class CompositionFragment : Fragment() {
 
         val navController = view.findNavController()
 
-        if (viewModel.diaryExample.value.content == "") viewModel.onCreate()
-
         viewModel.navigateToError.observe(viewLifecycleOwner) {
             navController.navigate(R.id.action_compositionFragment_to_errorFragment)
         }

@@ -3,7 +3,12 @@ package com.example.englishdiary.common
 object Constants {
     const val BASE_URL = "https://api.openai.com/v1/chat/"
 
-    const val PROMPT_TO_GET_EXAMPLE_DIARY = """
+    const val SHORT_LENGTH = 50
+    const val MEDIUM_LENGTH = 100
+    const val LONG_LENGTH = 150
+    var length: Int = MEDIUM_LENGTH
+
+    var PROMPT_TO_GET_EXAMPLE_DIARY = """
         You have high writing skills.
         The output must be a markdown code snippet in Japanese formatted with the following schema:
         \`\`\`json
@@ -13,7 +18,7 @@ object Constants {
         \`\`\`
         
         Notes.
-        * Diary content should be output around 100 characters.
+        * Diary content should be output around $length characters.
         * Do not include anything other than JSON in your answer.
         * Answers must be in Japanese.
         

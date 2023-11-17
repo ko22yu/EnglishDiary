@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.englishdiary.R
+import com.example.englishdiary.common.Constants
 import com.example.englishdiary.databinding.FragmentSettingDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,6 +27,34 @@ class SettingDialogFragment : DialogFragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         binding = FragmentSettingDialogBinding.inflate(requireActivity().layoutInflater)
+
+        binding.dairyExampleTextLengthPreferenceRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.short_length_radio_button -> {
+                    if (binding.shortLengthRadioButton.isChecked) {
+                        Constants.length = Constants.SHORT_LENGTH
+                    }
+                }
+
+                R.id.medium_length_radio_button -> {
+                    if (binding.mediumLengthRadioButton.isChecked) {
+                        Constants.length = Constants.MEDIUM_LENGTH
+                    }
+                }
+
+                R.id.long_length_radio_button -> {
+                    if (binding.longLengthRadioButton.isChecked) {
+                        Constants.length = Constants.LONG_LENGTH
+                    }
+                }
+            }
+        }
+
+        when (Constants.length) {
+            Constants.SHORT_LENGTH -> binding.shortLengthRadioButton.isChecked = true
+            Constants.MEDIUM_LENGTH -> binding.mediumLengthRadioButton.isChecked = true
+            Constants.LONG_LENGTH -> binding.longLengthRadioButton.isChecked = true
+        }
 
         binding.darkModePreferenceRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {

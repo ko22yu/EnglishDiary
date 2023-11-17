@@ -30,12 +30,46 @@
             app:layout_constraintTop_toBottomOf="@+id/setting_text" />
 
         <TextView
+            android:id="@+id/diary_example_text_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dairy_example_text_length"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/border_setting" />
+
+        <RadioGroup
+            android:id="@+id/dairy_example_text_length_preference_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/diary_example_text_length">
+
+            <RadioButton
+                android:id="@+id/short_length_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/short_length" />
+
+            <RadioButton
+                android:id="@+id/medium_length_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medium_length" />
+
+            <RadioButton
+                android:id="@+id/long_length_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/long_length" />
+        </RadioGroup>
+
+        <TextView
             android:id="@+id/dark_mode_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dark_mode"
             android:layout_marginVertical="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/border_setting" />
+            app:layout_constraintTop_toBottomOf="@+id/dairy_example_text_length_preference_radio_group" />
 
         <RadioGroup
             android:id="@+id/dark_mode_preference_radio_group"
@@ -48,19 +82,19 @@
                 android:id="@+id/follow_system_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/follow_system"/>
+                android:text="@string/follow_system" />
 
             <RadioButton
                 android:id="@+id/light_mode_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/light"/>
+                android:text="@string/light" />
 
             <RadioButton
                 android:id="@+id/dark_mode_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dark"/>
+                android:text="@string/dark" />
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

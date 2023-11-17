@@ -9,4 +9,8 @@
     <string name="dark">ダーク</string>
     <string name="dark_mode">ダークモード</string>
     <string name="setting">設定</string>
+    <string name="dairy_example_text_length">文の長さ</string>
+    <string name="short_length">短い</string>
+    <string name="medium_length">ふつう</string>
+    <string name="long_length">長い</string>
 </resources>
